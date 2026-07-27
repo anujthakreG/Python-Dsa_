@@ -238,7 +238,154 @@ Lecture :- 13 recurssion using parameters
 # whenever the base case is met always do the returning to the start of the case 
 # in the tail recu n to 1 :- print usually works after returning back 
 
-# example :- 1 to N 
 
-# head print 1 to n :- mai pehele apni job kr rha hu fir function ko call kr rha hu 
-# tail recurrsion :- mai function pehle call krta hu fir pirnt krta hu  
+# head print 1 to n :- pehle print hoga fir function call hoga
+# tail recurrsion :- pehle function call hoga then the print work starts after the return calls
+
+# example :- 1 to N :- head
+print("head 1 to n :- ")
+i = 1
+n = 4
+def func(i,n):
+    if i > n :
+        return
+    print(i)
+    func(i+1,n)
+
+func(1,4)
+
+print("head n to 1 :- ")
+def hfunc(i,n):
+    if n == 0:
+        return
+    print(n)
+    hfunc(i,n-1)
+hfunc(1,4)
+
+
+print("tail n to 1 :- ")
+def tfunc(i,n):
+    if i > n :
+        return
+    tfunc(i+1,n)
+    print(i)
+tfunc(1,4)
+
+
+print("tail 1 to n :- ")
+def ttfunc(i,n):
+    if n == 0:
+        return
+    ttfunc(i,n-1)
+    print(n)
+
+ttfunc(1,4)
+
+"""
+Lecture 14 :- what is functional recusrion 
+
+"""
+# what is parametrized function :- 
+def nsum(sum,i,n):
+    if i > n :
+        print(sum)
+        return    # but in this type of return it goes to the function which called him
+    nsum(sum+i,i+1,n)
+
+nsum(0,1,10)
+
+# but when you dont print but reutrn something that is called as functional recusrsion
+print("functional recursion :- ")
+n = 10 
+def ffcun(n):
+    if n == 1:
+        return 1 # means that function will return 1 not the whole answer will be one
+    return n + ffcun(n-1)   # you directly return here only 
+x= ffcun(10)
+print(x)    
+
+"""
+lecture 15 :- print the factorial of the number 
+"""
+
+def fac(n):
+    if n == 0:
+        return 1
+
+    return n * fac(n-1)
+y = fac(4)
+print(y)
+
+
+"""
+lecture 16 :- reversing an array using recursion 
+"""
+# using the method of recusrion :- 
+
+nums = [1,2,3,4,5,6,7,8,9]
+
+def revarray(nums, left, right):
+    if left >= right:
+        return
+    nums[left], nums[right] = nums[right], nums[left]
+    revarray(nums, left+1, right-1)
+
+def doit(nums, l, r):
+    revarray(nums, l, r)
+
+r = len(nums) - 1   # last index
+doit(nums, 0, r)
+print(nums)
+
+
+"""
+Lecture 17 :- check if a string is palindrome or not
+"""
+
+s = "hello"
+print(s)
+
+# iterative approach
+n = len(s)
+right = n - 1 
+left = 0
+def sfirst(s,left,right):
+    while left < right :
+        if s[left] != s[right]:
+            return False
+        left += 1
+        right -=1
+
+    return True
+sfirst(s,left,right)
+print(sfirst(s,left,right))
+# print(s)
+
+# recursion based appproach :- 
+print("recursion based approach")
+ss = "ABCABC"
+left = 0 
+n = len(ss)
+right = n - 1
+def function(s,left,right):
+    if left >= right :
+        return True
+    if s[left] != s[right]:
+        return False
+    return function(s,left+1,right-1)
+
+function(ss,0,n-1)
+
+
+"""
+Lecture 18 :- find the fibonacci number :- it is the sum of previous two number  
+"""
+
+def fib(n):
+    if n == 0 or n == 1 :
+        return n  # it will return the value upward 
+    return fib(n-1) + fib(n-2)
+
+n = 10 
+print(fib(n))
+
