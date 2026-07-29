@@ -92,6 +92,7 @@ while nums > 0 :
     result = (result * 10) + ld
     nums = nums // 10
     # return n == result
+print(result)
 print(n == result)  # it will show you the boolean value , same TC as above 
 
 #----------------------------------------------------------------------------------------
@@ -129,7 +130,7 @@ n = 20
 num = n
 result = []    
 for i in range(1,num+1):
-    if num  % i == 0:
+    if num % i == 0:
         result.append(i)
 print(result)
 
@@ -137,7 +138,7 @@ print(result)
 n = 10
 nums = n 
 result = []
-for i in range(1, (nums // 2) + 1):
+for i in range(1, (nums // 2) + 1):  # +1 to include the last element 
     if nums % i == 0:
         result.append(i)
 result.append(nums)
@@ -169,7 +170,7 @@ for i in range(0, len(nums)):
         freq_map[nums[i]] = 1
 print(freq_map)        # TC :- o(n) 
 
-# 2nd method :- hash map 
+# 2nd method :- hash map    # the better method is freq map 
 nums = [5,6,7,7,1,9,111,1,1,5,1,1]
 n = len(nums)
 hash_map = {}
@@ -448,5 +449,96 @@ print(nums)
 
 
 """
+tricky 
 lecture 22 :- merge sort , works on the principle of divide and conquoer 
+the logic for merge function is the number which you are appending in the final list after comparing increment that side
+left_arr = nums[:mid]   # mid index is excluded
+right_arr = nums[mid:]  # mid index is included
+
+Time complexity and space complexity :- 
+tc :- O(n logn )
+sc :- O(n) because you store the elements in the result whenever you call the maerge_array function 
+"""
+print("merge sort :- ")
+def merge_array(left, right):
+    result = []
+    i,j = 0,0
+    n,m = len(left), len(right)
+    while i < n and j < m :
+        if left[i]<= right[j]:
+            result.append(left[i])
+            i+=1
+        else :
+            result.append(right[j])
+            j+=1
+    if i < n :  # this is the condition after the main loops finishes not inside the main loop otherwise the elements will be double copies/appended
+        while i < n :
+            result.append(left[i])
+            i+=1
+    if j < m :
+        while j < m :
+            result.append(right[j])
+            j +=1
+    return result 
+
+def merge_sort(arr):
+    if len(arr) <= 1 :
+        return arr
+    mid = len(arr) // 2 
+    left_arr = arr[:mid]  # it means the mid th element is excluded  [::mid] -> this is different it includes the start stop step part 
+    right_arr = arr[mid:]  # in this step is not written so python uses 1 as a default value 
+    left = merge_sort(left_arr)  # we are just storing it in the variable so that we can pass it to other function 
+    right = merge_sort(right_arr)
+    return merge_array(left,right)
+
+nums = [8,9,5,4,6,7,4,5,1,2,3]
+print(nums)
+print(merge_sort(nums))
+
+# dry run the first iteration 
+
+"""
+lecture 22 :- quick sort , imp for interview 
+questions :- best , worst , average case tc and the reason also 
+
+remember merge sort gave us new array but we are fixing the position of the pivot element inside the array only , this is the benefit we are getting
+i ka aisa element dhundo jo pivot se badha ho -> bada milte hi stop 
+j ka aisa element dhundho jo pivot se kam ho 
+
+
+TC :- O(log n * n ) :- for the best and average case 
+worst case :- 
+"""
+print("quick sort")
+nums = [4,1,7,6,3,2,8]
+print(nums)
+low = 0
+high = len(nums) - 1 
+# print(high)
+def partition(nums,low,high):
+    pivot = nums[low]
+    i,j = low,high
+    while i < j :
+        while nums[i] <= pivot and i <= high - 1 :
+            i+=1
+        while nums[j] >= pivot and j >= low + 1 :
+            j-=1
+        if i < j :
+            nums[i],nums[j] = nums[j], nums[i]
+    nums[low], nums[j] = nums[j] , nums[low]  # because at the time of the process you will see j ke aage ke element lowth element se badhe hai 
+    return j 
+
+def quick_sort(nums,low,high):
+    if low<high :
+        p_index = partition(nums,low,high)
+        quick_sort(nums,low,p_index - 1)
+        quick_sort(nums,p_index + 1,high)
+
+quick_sort(nums,low,high)
+print(nums)
+
+
+
+"""
+Lecture 23 :- 
 """
