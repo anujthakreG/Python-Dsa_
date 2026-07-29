@@ -282,8 +282,8 @@ def ttfunc(i,n):
 ttfunc(1,4)
 
 """
+basically there are two types of recursion :- parameterized , funtional 
 Lecture 14 :- what is functional recusrion 
-
 """
 # what is parametrized function :- 
 def nsum(sum,i,n):
@@ -299,11 +299,12 @@ print("functional recursion :- ")
 n = 10 
 def ffcun(n):
     if n == 1:
-        return 1 # means that function will return 1 not the whole answer will be one
+        return 1 # means that function will return 1 not the whole answer will be one , kuch likh ke return kro to it is called as functional recursion
     return n + ffcun(n-1)   # you directly return here only 
-x= ffcun(10)
+x = ffcun(10)
 print(x)    
 
+# PENDING :- dry run if the above two recursion 
 """
 lecture 15 :- print the factorial of the number 
 """
@@ -361,8 +362,8 @@ sfirst(s,left,right)
 print(sfirst(s,left,right))
 # print(s)
 
-# recursion based appproach :- 
-print("recursion based approach")
+# recursion based appproach :-        ---> very good method 
+print("recursion based approach")     
 ss = "ABCABC"
 left = 0 
 n = len(ss)
@@ -389,3 +390,63 @@ def fib(n):
 n = 10 
 print(fib(n))
 
+"""
+Lecture 19 :- selection sort 
+# TC :- as the loop works a total of n(n+1)/ 2 therefore :- o(n^2)
+"""
+nums = [9,8,7,6,5,4,3,2,1]
+print(nums)
+
+def selection(nums):
+    n = len(nums)
+    for i in range(0,n):
+        min_ind = i
+        for j in range(i+1,n):
+            if nums[j] < nums[min_ind]:
+                min_ind = j 
+        nums[i], nums[min_ind] = nums[min_ind], nums[i]
+
+print("after selection sort :- ")
+selection(nums)
+print(nums)
+
+
+"""
+Lecture 20 :- bubble sort :- by my own
+"""
+print("bubble sort :- ")
+# the condition of outer and inner loop 
+nums = [8,5,4,7,9,3,2,1,4,7,8,2,1]
+print(nums)
+def bubble(nums):
+    n = len(nums)
+    for i in range(n):
+        for j in range(n-i-1):  # because the last poition will be get fixed by the element due to the outer loop
+            if nums[j] > nums[j+1]:
+                nums[j],nums[j+1] = nums[j+1], nums[j]
+bubble(nums)
+print(nums)
+
+"""
+Lecture 21 :- insertion sort 
+tc :- same as selection sort 
+"""
+print("insertion sort :- ")
+nums = [9,8,7,6,5,4,3,2,1]
+print(nums)
+def insertion(nums):
+    n = len(nums)
+    for i in range(0,n):
+        key = nums[i]
+        j = i - 1 
+        while j >= 0 and nums[j] > key :
+            nums[j+1] = nums[j]
+            j-=1
+        nums[j+1] = key
+insertion(nums)
+print(nums)
+
+
+"""
+lecture 22 :- merge sort , works on the principle of divide and conquoer 
+"""
