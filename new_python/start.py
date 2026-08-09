@@ -290,7 +290,7 @@ Lecture 14 :- what is functional recusrion
 def nsum(sum,i,n):
     if i > n :
         print(sum)
-        return    # but in this type of return it goes to the function which called him
+        return    # but in this type of return it goes to the function which called him and it directly prints the total and the return is to stop the recusrion
     nsum(sum+i,i+1,n)
 
 nsum(0,1,10)
@@ -302,7 +302,7 @@ def ffcun(n):
     if n == 1:
         return 1 # means that function will return 1 not the whole answer will be one , kuch likh ke return kro to it is called as functional recursion
     return n + ffcun(n-1)   # you directly return here only 
-x = ffcun(10)
+x = ffcun(10)   # all the khichdi uppr se niche and then niche se uppr we will store and then print it 
 print(x)    
 
 # PENDING :- dry run if the above two recursion 
@@ -364,7 +364,7 @@ print(sfirst(s,left,right))
 # print(s)
 
 # recursion based appproach :-        ---> very good method 
-print("recursion based approach")     
+print("recursion based approach")     # -> same as that of reversing a string
 ss = "ABCABC"
 left = 0 
 n = len(ss)
@@ -382,13 +382,13 @@ function(ss,0,n-1)
 """
 Lecture 18 :- find the fibonacci number :- it is the sum of previous two number  
 """
-
+print("\nfibo naci \n")
 def fib(n):
     if n == 0 or n == 1 :
         return n  # it will return the value upward 
     return fib(n-1) + fib(n-2)
 
-n = 10 
+n = 5 
 print(fib(n))
 
 """
@@ -498,7 +498,7 @@ print(merge_sort(nums))
 # dry run the first iteration 
 
 """
-lecture 22 :- quick sort , imp for interview 
+lecture 23 :- quick sort , imp for interview 
 questions :- best , worst , average case tc and the reason also 
 
 remember merge sort gave us new array but we are fixing the position of the pivot element inside the array only , this is the benefit we are getting
@@ -540,5 +540,219 @@ print(nums)
 
 
 """
-Lecture 23 :- 
+Lecture 24 :- find the largest element in the array
+tc :- O(n)
 """
+
+print("find the largest element in the array")
+nums = [55,32,-97,99,3,67]
+largest = nums[0]
+n = len(nums)
+for i in range(n):
+    largest = max(largest, nums[i])
+print(largest)
+
+
+"""
+Lecture 25 :- find the second largest element in the array
+"""
+
+print("find the second largest element in the array")
+# brute force way :- O(nlogn)
+nums = [55,32,97,99,3,67,2,6,5]
+
+nums.sort()
+n = len(nums)
+print(nums[n-2])
+
+
+nums = [55,32,97,99,3,67,2,6,5]
+# some nice way 
+
+largest = float("-inf")
+s_largest = float("-inf")
+n = len(nums)
+for i in range(0,n):
+    largest = max(largest, nums[i])
+
+for i in range(0,n):
+    if nums[i] > s_largest and nums[i] != largest :
+        s_largest = nums[i]
+
+print(s_largest)
+
+nums = [55,32,97,-55,3,67,2,6,5]
+largest = float("-inf")
+s_largest = float("-inf")
+
+for i in range(0,n):
+    if nums[i] > largest:
+        s_largest = largest 
+        largest = nums[i]
+
+    elif nums[i] > s_largest and nums[i] != largest :
+        s_largest = nums[i]
+
+print(s_largest, "correct")
+
+# the above both way have same tc
+
+print("\n lec-26\n")
+"""
+Lecture 26 :- check of the array is sorted
+"""
+nums = [55,32,97,-55,3,67,2,6,5]
+n = len(nums)
+
+for i in range(n-1):
+    if nums[i] > nums[i+1]:
+        print("false")
+
+"""
+Lecture 27 :- Removes duplicates from sorted array 
+"""
+nums = [1,1,1,2,3,4,4,7,9,9,9,10]
+freq_map = {}
+n = len(nums) # 12 
+for i in range(n):
+    freq_map[nums[i]] = 0 
+# for i in range(n+1):
+#     freq_map[nums[i]] = 0    -> this is wrong 
+
+j = 0
+
+for k in freq_map :
+    nums[j] = k
+    j+=1
+print(j)
+# print(new)
+
+
+print("\n\n lec 28 :- another lore\n\n")
+"""
+lecture 28 :- rotate array by 1 then we will see the rotaion of the array by k element leetcode question 
+"""
+# 1 st way is slicing 
+nums = [1,2,3,4,5,6,7,8]
+n = len(nums)
+nums[:] = [nums[-1]] + nums[0:n-1]
+print(nums)
+
+nums = [1,2,3,4,5,6,7,8]
+# 2nd method is reverse loop
+n = 8 
+temp = nums[-1]
+for i in range(n-2,-1,-1) :
+    nums[i+1] = nums[i]
+nums[i] = temp
+print(nums)
+
+"""
+lecture 29 :- rotate array by k element 
+"""
+# brute force way 
+nums = [3,9,5,6,7,2]
+n = len(nums)
+k = 3
+for i in range(k):
+    temp = nums[-1]
+    for j in range(n-2,-1,-1):  # -1 mtlb first element tk jaega aur third wala -1 mtlb ulta jaega 
+        nums[j+1] = nums[j]
+    nums[0] = temp 
+print(nums)
+
+# also do it by slicing method
+nums = [3,9,5,6,7,2,10,9]
+k = 5
+n = len(nums)
+nums[:] = nums[n-k:] + nums[0:n-k]
+print(nums) 
+
+# the optimal solution 
+nums = [3,9,5,6,7,2,10,9]
+k = 5
+def reverse(nums,left,right) :
+    while left < right :
+        nums[left], nums[right] = nums[right], nums[left]
+        left+=1
+        right-=1
+reverse(nums,n-k, n-1)  # 3,9,5,9,10,2,7,6
+reverse(nums,0,n-k-1)   # 5,9,3,9,10,2,7,6
+reverse(nums,0,n-1)     # 
+
+print(nums)
+
+
+"""
+lecture :- 30 move zeroes to the end :- two pointer solution
+"""
+
+"""
+lecture :- 31 :- implementing linear search 
+"""
+nums = [1,2,44,5,7,6,5]
+target = 5 
+
+n = len(nums)
+for i in range(n):
+    if nums[i] == target :
+        print(i)
+
+
+"""
+lecture :- 32
+"""
+nums1 = [1,1,1,2,4,6,7]
+nums2 = [1,2,3,6,7,8,9,10]
+result = []
+n,m = len(nums1), len(nums2)
+i,j = 0,0
+
+while i < n and j < m :
+    if nums1[i] <= nums2[j] :
+        if len(result) == 0 or nums1[i] != result[-1] :
+            result.append(nums1[i])
+        i+=1    
+    else :
+        if len(result) == 0 or nums2[j] != result[-1] :
+            result.append(nums2[j])
+        j+=1
+if i < n :
+    while i < n :
+        if len(result) == 0 or nums1[i] != result[-1] :
+            result.append(nums1[i])
+        i+=1
+if j < m :
+    while j< m :
+        if len(result) == 0 or nums2[j] != result[-1] :
+            result.append(nums2[j])
+        j+=1
+print(result)
+
+"""
+lecture :- 33 -> find the missing value  ----- >lc
+"""
+nums = [9,6,4,2,3,5,7,0,1]
+freq = {}
+n = len(nums)
+for i in range(n):  # this is the normal you are creating not of the nums
+    freq[i] = 0
+for num in nums :
+    freq[num] = 1
+
+for k,v in freq.items() :
+    if v == 0 :
+        print(k)
+
+nums = [9,6,4,2,3,5,7,0,1]
+# optimal way 
+def missing(nums) :
+    n = len(nums)  # 9 
+    tot,sums = 0,0
+    for i in range(n+1):
+        sums = sums + i
+    for i in range(n):
+        tot = tot + nums[i]
+
+    return sums - tot
+print(missing(nums))
