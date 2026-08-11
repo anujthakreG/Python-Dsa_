@@ -756,3 +756,111 @@ def missing(nums) :
 
     return sums - tot
 print(missing(nums))
+
+
+"""
+lecture 34  :- count the max consecutive ones 
+"""
+
+nums = [1,1,0,1,0,1,1,1,1,0,1,1,1,1,1,1]
+def maxcount(nums) :
+    n = len(nums)
+    count = 0 
+    max_count = 0
+    for i in range(n):
+        if nums[i] == 1 :
+            count+= 1
+        else :
+            max_count = max(count,max_count)
+            count = 0
+    return max(count,max_count)
+
+print(maxcount(nums))
+
+"""
+lecture 35 :- two sum probelm  -----> lc 
+"""
+
+# brute force way 
+nums = [5,9,1,2,4,15,6,3]
+target = 13
+# y = 0
+n  = len(nums)
+for i in range(n):
+    x = target - nums[i]
+    for j in range(i+1,n):
+        if nums[i] + nums[j] == target :
+            print(i,j)
+
+def optimal(nums) :
+    hash_map = {}
+    n = len(nums)
+    for i in range(n) :
+        rem  = target - nums[i]
+        if rem in hash_map :
+            return [hash_map[rem], i]
+        hash_map[nums[i]] = i 
+print(optimal)
+
+
+"""
+lecture 36 :- find the max subarray   
+"""
+
+# also known as kadanes algo
+nums = [-2,1,-3,4,-1,2,1,-5,4]
+total = 0 
+n = len(nums)
+maxi = float("-inf")
+for i in range(n):
+    total = total + nums[i]
+    maxi = max(total,maxi)
+
+    if total < 0 :
+        total = 0
+print(maxi)
+
+print("| l37 |  ")
+"""
+lecture 37 :- best time to buy and sell stock -> lc 121
+"""
+price = [7,2,1,5,6,4,8]
+n = len(price)
+max_p = 0 
+for i in range(n):
+    for j in range(i+1,n):
+        if price[j] > price[i]:
+            p = price[j] - price[i]
+            max_p = max(max_p,p)
+print(max_p)   # -> this was the brute force way to find the solution with the tc of o(n^2)
+
+# the optimal solution 
+price = [7,2,1,5,6,4,8]               # we will see it again by doing the dry run of the code 
+min_price = float("-inf")
+max_price = 0 
+n = len(price)
+for i in range(n):
+    min_price = min(min_price, price[i])
+    max_price = max(max_price, price[i] - max_price)
+print(max_price)
+
+
+"""
+lecture 38 :- rearrange array elements by sign  --> lc 2149 
+"""
+
+nums  = [5,10,-3,-1,-10,6]
+s = len(nums)
+# return new list 
+result = [0] * s
+p = 0 
+n = 1
+for i in range(s):
+    if nums[i] >= 0 :
+        result[p] = nums[i]
+        p+=2
+    else :
+        result[n] = nums[i]
+        n+=2
+print(result)
+
