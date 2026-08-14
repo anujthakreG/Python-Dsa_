@@ -799,7 +799,7 @@ def optimal(nums) :
         rem  = target - nums[i]
         if rem in hash_map :
             return [hash_map[rem], i]
-        hash_map[nums[i]] = i 
+        hash_map[nums[i]] = i     # here the key:value pair is like this :- key(nums element)  : value(index value of the element)
 print(optimal)
 
 
@@ -863,4 +863,81 @@ for i in range(s):
         result[n] = nums[i]
         n+=2
 print(result)
+
+
+print("\n | largest consecutive sequence ")
+"""
+lecture 39 :- largest consecutive sequence          -> lc 128 
+"""
+
+# 1 brute force way with a tc of o(n^2)
+nums = [1,99,101,98,2,5,3,100,1,1]
+n = len(nums)
+max_count = 0
+for i in range(n):
+    num = nums[i]
+    count = 1
+    while (num+1) in nums:   # this is like jab tk num+1 nahi milega it will iterate from the start to thr end 
+        count+=1
+        num = num+1
+    max_count = max(count,max_count)
+
+print(max_count)
+
+
+# 2 -> better way    -> we have to use last_smaller number here 
+nums = [1,99,101,98,2,5,3,100,1,1]
+n = len(nums)
+# nums = nums.sort()    # this will return the value none just simply write
+nums.sort()
+# then the nums will be :- [1,1,1,2,3,5,98,99,100,101]   -> we sorted this just becasue that we dont have to iterate the entire nums again and again
+count = 0
+last_smaller = float("-inf")
+longest = 0 
+for i in range(n):
+    num = nums[i]
+    if num-1 == last_smaller:    # then this is the starting point 
+        count += 1
+        last_smaller = num
+    elif num-1 != last_smaller :
+        count = 1 
+        last_smaller = num
+    longest = max(longest, count)
+print(longest)                        # -> tc is o(nlogn) + o(n)  :- sort + single loop 
+
+
+# the optimal way of the solution  
+nums = [1,99,101,98,2,5,3,100,1,1]
+n = len(nums)
+count = 0
+"""
+before proceding remember this :- d = {
+    "a": 10,
+    "b": 10,
+    "c": 20
+}              in dict keys are unique but the values may be common
+
+and in set all elements are unique 
+"""
+my_set = set()
+for i in range(n):
+    my_set.add(nums[i])
+longest = 0
+for num in my_set:
+    if num-1 not in my_set :  # that means this is the starting point 
+        x = num 
+        count = 1
+        while x+1 in my_set :
+            count+=1
+            x+=1
+        longest = max(longest,count) # ---> this is the optimal solution with tc of o(n+n+n)  the this n is a bit tricky :- look carefully while reading the while loop
+print(longest)
+# so it has a tc good then the better solution 
+
+
+"""
+lecture 40 :- learn about 2d list or matrix 
+"""
+
+
 
