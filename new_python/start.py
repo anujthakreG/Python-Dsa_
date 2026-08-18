@@ -599,7 +599,7 @@ print(s_largest, "correct")
 
 print("\n lec-26\n")
 """
-Lecture 26 :- check of the array is sorted
+Lecture 26 :- check if the array is sorted
 """
 nums = [55,32,97,-55,3,67,2,6,5]
 n = len(nums)
@@ -939,5 +939,196 @@ print(longest)
 lecture 40 :- learn about 2d list or matrix 
 """
 
+# how to represent in 2d list 
+nums = [[5,20,3], [7,-10,9], [1,-52,6]]
+rows = len(nums)
+col = len(nums[0])
+# i is for rows and j is for coloumns
+for i in range(0,rows):
+    for j in range(0,col):
+        print(nums[i][j],end = " ")
+    print( )
+
+print("print upper triangle")
+# 1> print upper triangle
+nums = [[5,10,8], [7,6,3], [2,1,9]]
+rows = len(nums)
+col = len(nums[0])
+for i in range(0,rows):
+    for j in range(0,col):
+        if j >= i:
+            print(nums[i][j], end = " ")
+        else :
+            print("*", end = " ")
+    print()
 
 
+print("lower triangle")
+nums = [[5,10,8], [7,6,3], [2,1,9]]
+rows = len(nums)
+col = len(nums[0])
+for i in range(0,rows):
+    for j in range(0,col):
+        if j <= i:
+            print(nums[i][j], end = " ")
+        else :
+            print("*", end = " ")
+    print()
+
+
+print("diagonal triangle")
+nums = [[5,10,8], [7,6,3], [2,1,9]]
+rows = len(nums)
+col = len(nums[0])
+for i in range(0,rows):
+    for j in range(0,col):
+        if j == i:
+            print(nums[i][j], end = " ")
+        else :
+            print("*", end = " ")
+    print()
+
+# i,j = 
+# 0,1  
+# 1,0
+nums = [[5,8,9], [10,7,6], [3,1,2]]
+rows = len(nums)
+col = len(nums[0])
+result = [[0] * rows for _ in range(col)]       # what is the meaning of this :- _
+for i in range(rows):
+    for j in range(col):
+        result[j][i] = nums[i][j]
+print(result)
+
+# same for 2*3 matrix
+
+
+"""
+lecture 41 :- set matrix zero 
+"""
+# brute force way :- 
+nums = [[7,9,2,3], [20,8,0,10], [20,0,-10,5], [4,14,6,7]]
+
+class Solution:
+    def markinfinity(self, matrix,row,col) :
+        r = len(matrix)
+        c = len(matrix[0])
+        for i in range(0,r) :
+            if matrix[i][col] != 0 :
+                matrix[i][col] = float("-inf")
+        for j in range(0,c):
+            if matrix[row][j] != 0 :
+                matrix[row][j] = float("-inf")
+
+    def setzeroes(self, matrix) -> None:
+
+        r = len(matrix)
+        c = len(matrix[0])
+
+        for i in range(r):
+            for j in range(c):
+                if matrix[i][j] == 0:
+                    self.markinfinity(matrix, i, j)
+        for i in range(r):
+            for j in range(c):
+                if matrix[i][j] == float("-inf"):
+                    matrix[i][j] = 0 
+S1 = Solution()
+S1.setzeroes(nums)
+rows = len(nums)
+col = len(nums[0])
+for i in range(0,rows):
+    for j in range(0,col):
+        print(nums[i][j],end = " ")
+    print( )
+
+# optimal way to use the stack where we will mark -1 both in teh row and col stack when ever there will be 0 
+print("optimal way to print the set zero matrix ")
+nums = [[7,9,2,3], [20,8,0,10], [20,0,-10,5], [4,14,6,7]]
+r = len(nums)
+c = len(nums[0])
+
+row_track = [0 for _ in range(r)]
+col_track = [0 for _ in range(c)]
+
+# row_track = [0] * r
+# col_track = [0] * c
+
+
+for i in range(r):
+    for j in range(c):
+        if nums[i][j] == 0 :
+            row_track[i] = -1
+            col_track[j] = -1
+for i in range(r):
+    for j in range(c):
+        if row_track[i] == -1 or col_track[j] == -1 :
+            nums[i][j] = 0 
+
+for i in range(r):
+    for j in range(c) :
+        print(nums[i][j], end = " ")
+    print()
+
+
+print("| lecture 42 |")
+"""
+lecture 42 :- rotate the matrix by 90 degrees :-           lc 48
+"""
+
+nums = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]]
+r = len(nums)
+c  = len(nums[0])
+
+# first take the transpose then swap it 
+result = [ [0]* r for _  in range(c)]
+for i in range(r):
+    for j in range(c):
+        result[j][i] = nums[i][j]
+
+"""
+1 5 9 13 
+2 6 10 14 
+3 7 11 15 
+4 8 12 16
+"""
+
+for i in range(r):
+    k = 0 
+    j = 3 
+    while k <= j :
+        result[i][k], result[i][j] = result[i][j], result[i][k]
+        k+=1
+        j-=1
+
+for i in range(r):
+    for j in range(c) :
+        print(result[i][j], end = " ")
+    print()
+
+# now this code is not optimal as we are creating a different matrix to solve the problem , so :- tc == sc = o(n*m)
+
+print("optimal solution :- ")
+# the optimal solution :- 
+nums = [[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]]
+
+n = len(nums)
+r = len(nums)
+c  = len(nums[0])
+# just simply transpose the matrix :- 
+for i in range(n):
+    for j in range(i+1,n):
+        nums[i][j], nums[j][i] = nums[j][i], nums[i][j]
+
+for i in range(n):
+    nums[i].reverse()
+
+for i in range(r):
+    for j in range(c) :
+        print(nums[i][j], end = " ")
+    print()
+
+
+"""
+lecture 43 :- print the matrix in spiral order :-           lc 54
+"""
