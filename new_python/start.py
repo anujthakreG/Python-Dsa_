@@ -676,7 +676,7 @@ def reverse(nums,left,right) :
         nums[left], nums[right] = nums[right], nums[left]
         left+=1
         right-=1
-reverse(nums,n-k, n-1)  # 3,9,5,9,10,2,7,6
+reverse(nums,n-k, n-1)  # 3,9,5,9,10,2,7,6    because we have to pass the index value 
 reverse(nums,0,n-k-1)   # 5,9,3,9,10,2,7,6
 reverse(nums,0,n-1)     # 
 
@@ -1116,9 +1116,10 @@ n = len(nums)
 r = len(nums)
 c  = len(nums[0])
 # just simply transpose the matrix :- 
-for i in range(n):
+for i in range(n):    # --> this is the second way of doing the transpose of the matrix 
     for j in range(i+1,n):
         nums[i][j], nums[j][i] = nums[j][i], nums[i][j]
+
 
 for i in range(n):
     nums[i].reverse()
@@ -1130,5 +1131,169 @@ for i in range(r):
 
 
 """
-lecture 43 :- print the matrix in spiral order :-           lc 54
+lecture 43 :- print the matrix in spiral order :-           --->lc 54
 """
+
+matrix = [
+    [1,  2,  3,  4,  5,  6],
+    [20, 21, 22, 23, 24, 7],
+    [19, 32, 33, 34, 25, 8],
+    [18, 31, 36, 35, 26, 9],
+    [17, 30, 29, 28, 27, 10],
+    [16, 15, 14, 13, 12, 11]
+]
+
+result = []
+def spiralprint(matrix):
+    top,left = 0,0
+    right, bottom = len(matrix[0]) - 1 , len(matrix) - 1 
+    while top <= bottom and left <= right :
+        for i in range(left, right+1) :
+            result.append(matrix[top][i])
+        top+=1
+        for i in range(top, bottom + 1) :
+            result.append(matrix[i][right])
+        right-=1
+
+        if top <= bottom :  # this two conditions are main i.e. tricky 
+            for i in range(right, left -1 , -1):
+                result.append(matrix[bottom][i])
+            bottom-=1
+
+        if left<= right :
+            for i in range(bottom, top-1,-1) :
+                result.append(matrix[i][left])
+            left+=1
+    return result
+print(spiralprint(matrix))
+
+
+"""
+lecture 44 :- 3sum problem           ---> lc 15 
+"""
+
+# brrute force way of the solution   -> tc = o(n3)  and sc -> O(no of triplets)
+arr =  [-1,0,1,2,-1,4]
+n = len(arr)
+my_set = set()
+for i in range(n):
+    for j in range(i+1,n):
+        for k in range(j+1,n):
+            if arr[i] + arr[j] + arr[k] == 0 :  # always remember you cannot add a list in thgge set :- beacuse list is not a hashable type but yes you can add a tuple in the list
+                temp = [arr[i], arr[j], arr[k]]
+                temp.sort()
+                my_set.add(tuple(temp))   # that is why we added tuple in the set 
+
+ans = [list(ans) for ans in my_set ]  # then we used list comprehension in the final answer 
+print(ans)
+
+
+# always remember to find any element in the liost/array better way is to use dict or set
+def better(nums) :    # tc : o(n2) , sc :- O(n) + O(No. of triplets)
+    result = set()
+    n = len(nums)
+    for i in range(n):
+        my_set = set()
+        for j in range(i+1,n):
+            k = -(nums[i]+nums[j])
+            if k in my_set :
+                temp = [nums[i],nums[j],k]
+                temp.sort()
+                result.add(tuple(temp))
+            my_set.add(nums[j])
+    return result
+
+arr =  [-1,0,1,2,-1,4]
+print(better(arr))
+
+def optimal(nums):
+    n = len(nums)
+    nums.sort()
+    result = []
+    for i in range(n):
+        if  i!= 0 and nums[i] == nums[i-1] :
+            continue    # means it will simply do i+=1 and the below written code will not return this is the code to ignore the value of repeated i 
+
+        j = i + 1
+        k = n-1
+        while j < k :
+            total = nums[i] + nums[j] + nums[k]
+            if total < 0 :   # apn ko 0 ke close ya o tk pohochna hai , here we can say 0 is the target value
+                j+=1
+            elif total >0 : 
+                k-=1
+            else : # means here you got the total = 0 
+                temp = [nums[i],nums[j],nums[k]]
+                result.append(temp)
+                j+=1
+                k-=1
+                # now the new j and k value should not be equal to the prev appended j and k value so new conditions 
+                # we are not using any dict/freq here 
+                while j < k and nums[j] == nums[j-1]:
+                    j+=1
+                while j < k and nums[k] == nums[k+1] :
+                    k-=1
+    return result 
+nums = [-2,-2,-2,-1,-1,-1,0,0,0,2,2,2,2]
+arr =  [-1,0,1,2,-1,4]
+print(optimal(arr))
+print(optimal(nums))
+
+# this is the optimal solution for the 3sum problem with TC = O(N logn ) + O(n2), sc :- O(no. of triplets)
+
+"""
+lecture 44 :- 4sum problem           ---> lc 18
+"""
+
+def brute(nums) :
+    n = len(nums)
+    my_set = set()
+    res = []
+    for i in range(n):
+        for j in range(i+1,n) :
+            for k in range(j+1,n) :
+                for l in range(k+1,n):
+                    if nums[i] + nums[j] + nums[k] + nums[l] == 0 :
+                        temp = [nums[i],nums[j],nums[k],nums[l]]
+                        temp.sort()
+                        my_set.add(tuple(temp))
+    return [list(ans) for ans in my_set]
+
+nums = [1,0,-1,0,-2,2,5,9]
+print(brute(nums))
+
+nums = [1,0,-1,0,-2,2,5,9]
+def optimal(nums,target) :
+    nums.sort()
+    n = len(nums)
+    result = []
+    for i in range(n) :
+        if i != 0 and nums[i] == nums[i-1] :
+            continue # just ignore
+        for j in range(i+1,n) :
+            if j > i+1 and nums[j] == nums[j-1] :
+                continue
+            k = j+1
+            l = n-1
+
+            while k < l :
+                total = nums[i] + nums[j] +nums[k] +nums[l]
+                if total == target :
+                    temp = [nums[i],nums[j],nums[k],nums[l]]
+                    result.append(temp)
+                    k+=1
+                    j-=1
+                    while k < l and nums[k] == nums[k-1] :
+                        k+=1
+                    while k < l and nums[j] == nums[j+1] :
+                        j-=1
+
+                elif total < target :
+                    k+=1
+                else :
+                    l-=1
+    return result
+
+nums = [1,1,1,1,2,2,3,3,3,4,4,4,5,5]
+print(optimal(nums,8))
+
