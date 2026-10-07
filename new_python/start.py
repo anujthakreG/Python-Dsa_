@@ -686,6 +686,25 @@ print(nums)
 """
 lecture :- 30 move zeroes to the end :- two pointer solution
 """
+from typing import List
+class MoveZero :
+    def move(self, nums : List[int]) -> None:
+        # we have to keep two pointers start and i 
+        start = 0  # start is for keeping 
+        n = len(nums)
+
+        for i in range(n):   # starts from the 0 ,,,,,,,,,,,,,0 se n-1
+            if nums[i] !=0 :
+                # swap it if it is non zero element 
+                nums[i], nums[start] = nums[start], nums[i]
+                start+=1
+            # return []
+m1 = MoveZero()
+nums = [0,1,0,3,12]
+# nums = [1,2,0,3,12]
+# print(m1.move(nums))   -> was not working
+m1.move(nums)
+print(nums)
 
 """
 lecture :- 31 :- implementing linear search 
@@ -938,6 +957,14 @@ print(longest)
 """
 lecture 40 :- learn about 2d list or matrix 
 """
+"""
+this is how you create a empty matrix of 0's with n rows and m col
+"""
+# n = 3
+# m = 4
+
+# mat = [[0 for _ in range(m)] for _ in range(n)]
+
 
 # how to represent in 2d list 
 nums = [[5,20,3], [7,-10,9], [1,-52,6]]
@@ -999,7 +1026,9 @@ for i in range(rows):
     for j in range(col):
         result[j][i] = nums[i][j]
 print(result)
-
+"""for i in range(n):    # --> this is the second way of doing the transpose of the matrix 
+    for j in range(i+1,n):
+        nums[i][j], nums[j][i] = nums[j][i], nums[i][j]"""   # -> another waay to do the transpose of the matrix
 # same for 2*3 matrix
 
 
@@ -1168,9 +1197,14 @@ def spiralprint(matrix):
 print(spiralprint(matrix))
 
 
+print("\n 3sum :- \n")
 """
 lecture 44 :- 3sum problem           ---> lc 15 
+here continue will simply +=1 not run the below code
+and break means it will stop from that position
 """
+
+
 
 # brrute force way of the solution   -> tc = o(n3)  and sc -> O(no of triplets)
 arr =  [-1,0,1,2,-1,4]
@@ -1179,7 +1213,7 @@ my_set = set()
 for i in range(n):
     for j in range(i+1,n):
         for k in range(j+1,n):
-            if arr[i] + arr[j] + arr[k] == 0 :  # always remember you cannot add a list in thgge set :- beacuse list is not a hashable type but yes you can add a tuple in the list
+            if arr[i] + arr[j] + arr[k] == 0 :  # always remember you cannot add a list in the set :- beacuse list is not a hashable type but yes you can add a tuple in the list
                 temp = [arr[i], arr[j], arr[k]]
                 temp.sort()
                 my_set.add(tuple(temp))   # that is why we added tuple in the set 
@@ -1242,7 +1276,7 @@ print(optimal(nums))
 # this is the optimal solution for the 3sum problem with TC = O(N logn ) + O(n2), sc :- O(no. of triplets)
 
 """
-lecture 44 :- 4sum problem           ---> lc 18
+lecture 45 :- 4sum problem           ---> lc 18
 """
 
 def brute(nums) :
@@ -1296,4 +1330,780 @@ def optimal(nums,target) :
 
 nums = [1,1,1,1,2,2,3,3,3,4,4,4,5,5]
 print(optimal(nums,8))
+
+# tc :- O(n3) here nlogn is ignored because it is very less then n3 and sc :- o(1) == o(no of triplets) 
+"""
+lecture 46 :- binary search       -> very very imp for binary search for interview 
+beacuse it usually gives the optimal silution in most of the cases 
+"""
+
+# it is used to reduce the tc of the solution :- 
+nums = [2,4,6,7,9,11,18,19]
+# this is the iteratve approach
+def binarys(nums,target) :    # -> O(logbase2N)  , sc :- O(1)
+    low,high = 0,len(nums) - 1
+
+    while low <= high :
+        mid = (low+high) // 2 
+        if nums[mid] == target :
+            return mid
+        elif target > nums[mid] :
+            low = mid + 1
+        else :
+            high = mid - 1
+    return -1 
+print(binarys(nums, 11))
+# this is the recursive approach
+
+
+
+"""
+lecture 47 :- upper and lower bound 
+"""
+# lower bound :- smallest index such that nums[i] >= target , we have to returnt the index of the target element 
+# in the searching if the target ele is not present then return -1
+def lb(nums) :
+    n = len(nums)
+    lb = -1
+    low,high = 0, n- 1
+    while low <= high :
+        mid = (low+high) // 2 
+        if nums[mid] >= target:
+            lb = mid
+            high = mid-1
+        else :
+            low = mid + 1  #apn ko low tk jana hai islioye yaha lb ki condition nahi likhi kyuki age jake low wala hi lb banega
+    return -1
+
+# upper bound :- smallest index such that nums[i] > target 
+
+# in the searching if the target ele is not present then return -1
+def ub(nums) :
+    n = len(nums)
+    ub = n   # this condition also wokrs for lb 
+    low,high = 0, n- 1
+    while low <= high :
+        mid = (low+high) // 2 
+        if nums[mid] > target:
+            ub = mid
+            high = mid-1
+        else :
+            low = mid + 1 
+    return -1
+
+
+"""
+lecture 48 :- search insert position :-    --> lc 35 
+"""
+nums = [1,3,4,5,8,9,14,15,19,20,21]
+# simply it is the case of lb
+
+
+
+"""
+if you have to reduce the tc from O(n) more then O(n) -> O(logn)  this is more precise
+"""
+"""
+lecture 49 :- floor and ceil in sorted array :- 
+"""
+# ceil :- smallest number in the array >= target
+# floor :- largest number in the array <= target
+# [floor,  ceil]    -> if th values not exists then return -1 to that paticular 
+
+
+# this nums is already sorted :- 
+nums = [3,4,4,4,8,9,9,10,12,12,14,15]   # this is the optimal solution 
+def cf(nums,target) :
+    n = len(nums)
+    ceil, floor = -1,-1
+    low,high = 0,n-1
+    while low <= high :
+        mid = (low+high) // 2 
+        if nums[mid] == target :
+            return [nums[mid], nums[mid]]
+        elif nums[mid] > target :
+            ceil = nums[mid]  # you have to store the value not the index
+            high = mid-1
+        else :
+            floor = nums[mid]
+            low = mid+1
+    return (floor, ceil)
+
+print(cf(nums,6))
+
+
+"""
+lecture 50 :- find fisrt and last occurence in the sorted array :-      --> lc 34
+"""
+
+def brute(nums,target):
+    f,l = -1,-1
+    n = len(nums)
+    for i in range(n):
+        if nums[i] == target:
+            if f == -1:
+                f = i
+            l = i 
+    return (f,l)
+nums = [1,2,3,3,3,3,3,5,6,8,9,9,10]
+target = 3
+print(brute(nums,target))
+
+# what is the more precise tc then O(n) :
+# just club the solution of both the lower and upper bound in one solution :-  it will be the optimal solution for this question 
+
+"""
+lecture 51 :- count occurences in the sorted array
+"""
+nums = [1,2,3,3,3,3,3,5,6,8,9,9,10]
+
+def brute(nums,target) :
+    n = len(nums)
+    first, last = -1,-1
+    for i in range(n) :
+        if nums[i] == target :
+            if first == -1 :
+                first = i 
+            last = i 
+    if first == -1 :
+        return -1 
+    return (last-first)+1
+print(brute(nums,3))   # same goes as above for the oprimal solution for this question
+
+"""
+lecture 51 :- search in rotated sorted array     --> lc 33
+"""
+nums = [1,4,5,6,8,9,10,11,15,20]
+def sra(nums,target) :
+    n = len(nums)
+    low,high = 0, n-1
+    while low <= high :
+        mid = (low+high) // 2 
+        if nums[mid] == target :
+            return mid
+        elif nums[mid] > target :
+            ceil = nums[mid]
+            high  = mid-1
+        else :
+            floor = nums[mid]
+            low = mid+1
+    return - 1
+print(sra(nums,6))
+print(sra(nums,13))
+
+"""
+lecture 53 :- search in rotated sorted array II     ---> lc 81 
+"""
+nums = [10,11,11,12,12,13,13,13,1,2,3,4]
+def brute(nums,t) :
+    n = len(nums)
+    for i in range(n):
+        if nums[i] == t :
+            return True
+        else :
+            False
+print(brute(nums,11))
+
+# 53 and 54 remaining 
+
+"""
+lecture 55 :- Starting with the linked list 
+
+"""
+
+"""
+lecture 56 :- Starting with the linked list 
+"""
+class Node :
+    def __init__(self,val):
+        self.val = val
+        self.next = None
+# what are methods inside a class
+# rets we all know the operations if any refer to old file
+
+
+"""
+lecture 57 :- Middle of the linked list      --> 876
+"""
+# refer this list as linke dlist
+nums = [5,10,27,3,99]
+def brute(self,nums) :
+    n = 0 
+    temp = self.head
+    while temp != None :
+        temp = temp.next
+        n+=1
+    for i in range(n // 2 ):
+        temp = temp.next
+    return temp
+
+# optimal solution can be the slow and fast pointer 
+# where when fast.next is None then slow will be at the mid position 
+
+
+# classical stucture for the linked list :- 
+class Node :
+    def __init__(self, val):
+        self.val = val 
+        self.next = None
+
+"""
+lecture 59 :- linked list cycle , Floy'd cycl detection      --> lc 141 
+""" 
+#--> solution done in lc 
+
+
+"""
+lecture 60 :- find the cycle starting point    --> lc 142
+""" 
+# solution in the lc just return the repeated node you find again the set 
+
+"""
+lecture 61 :- find length of the loop in the cycle 
+""" 
+def lengthcycle(head) :
+    slow, fast = temp, temp 
+    while fast is not None and fast.next is not None:  # this will be the favourable cindition for both the ccycle and non cycle case
+        fast = fast.next.next  
+        slow = slow.next
+
+        if slow == fast :
+            l = 1 
+            fast = fast.next
+            while fast != slow :
+                fast = fast.next
+                l+=1
+            return l
+    return -1 
+
+
+"""
+lecture 62 :- odd even linked list
+"""
+
+"""
+When you delete a node:
+
+temp.next = temp.next.next
+"""
+# tried but dk how to reassrange the ll
+def brute(head) :
+    temp = head
+    values = []
+    # while temp != None  # this will be not the goodd conditions as it will not be able to append the value at full
+    while temp and temp.next : # mtlb ye jab tk ho rha hai
+        values.append(temp.val)
+        temp = temp.next.next
+    temp = head.next 
+    while temp and temp.next : # mtlb ye jab tk ho rha hai
+        values.append(temp.val)
+        temp = temp.next.next
+    ind = 0
+    temp = head
+    while temp != None :
+        temp.val = values[ind]
+        ind+=1
+        temp = temp.next
+    return head  # so this solution has tcof o2n and sc of on
+
+def optimal(head) :
+
+    # in this solution we just changs the links not updated the values 
+    # edge case :
+    if head is None or head.next is None :
+        return head 
+    odd = head
+    even = head.next 
+    even_head = even
+    # try to find some thing very common for the solution like this  :- 
+    while even != None and even.next != None :
+        odd.next = odd.next.next
+        odd = odd.next
+        even.next = even.next.next
+        even = even.next 
+    odd.next = even_head
+    return head # this solutino has tc of O(n/2) and sc of O(1)
+
+
+"""
+lecture 63 :- remove nth node from the end of the linked list
+"""
+
+def removen(head,n) :  # this is the brute force solution 
+    temp  = head
+    c = 0
+    while temp != None :
+        temp = temp.next
+        c+=1
+    if c == n :
+        new_head = head.next
+        return new_head 
+    t = c - n 
+    for i in range(t) :
+        temp = temp.next
+    temp.next = temp.next.next
+
+    return head 
+
+def optimal(head,n) :
+    temp = head
+    slow = head
+
+    for i in range(n) :
+        fast = fast.next
+    if fast == None :
+        return head.next
+    
+    while fast.next != None :
+        fast = fast.next
+        slow = slow.next
+    slow.next = slow.next.next
+    return head 
+
+"""
+lecture 64 + 65 :- starting with the doubley linked list 
+"""
+class Node :
+    def __init__(self,val):
+        self.val = val 
+        self.next = None
+        self.prev = None
+
+class Doublulinkedlist :
+    def __init__(self) :
+        self.head = None
+
+    # 1 inserting a position at head
+    def insert_at_head(self,val) :
+        New_node = Node(val)
+        if not self.head :
+            self.head = New_node
+        else :
+            New_node.next = self.head
+            self.head.prev = New_node
+            self.head = New_node 
+
+    # 2 append (add at last)
+    def append(self,val) :
+        new_node = Node(val)
+        if not self.head :
+            self.head = new_node
+        else :
+            current = self.head
+            while current != None :
+                current = current.next
+            current.next = new_node
+            new_node.prev = current
+
+    # 3 insert at specific position 
+    def insert_at_pps(self,val,position):
+        new_node = Node(val)
+        if position == 0 :
+            self.insert_at_head(val)
+            return 
+        
+        current = self.head
+        count = 0 
+        while current and count < position - 1 :
+            current = current.next
+            count+=1
+        if current is None :
+            print("position out of bounds !")
+            return 
+        new_node.next = current.next
+        new_node.prev = current
+        if current.next :
+            current.next.prev = new_node
+        current.next = new_node
+
+"""
+lecture 66 :- reverse a doubly linked list :- 
+"""
+# the optimal solution
+def revers(head):
+    if head.next is None :
+        return head
+    curr = head
+    prev = None
+    while curr is not None :
+        front = curr.next
+        curr.next = prev
+        curr.prev = front
+        prev = curr
+        curr = front
+    return prev # this are all the o(1) operaions
+
+
+# 67,68,69 -> do it remaining
+
+
+"""
+Bit manipulation :- lec 70 
+"""
+# 1> how to convert integer to binary 
+
+def convert2binary(num:int)->str:
+    result = ""
+    while num > 0 :
+        if num%2 == 1 :
+            result+="1"
+        else :
+            result+="0"
+        num = num // 2   # here we are dividing the numrbe with 2 , therefore base = 2 
+    result = result[::-1]   # by slicing we will reverse the number 
+    return result
+print(convert2binary(13))    # tc :- O(logbase n)
+
+# 2> how to convert binary to decimal (int)
+def convert2decimal(x:str) -> int :
+    decimal_num = 0 
+    power = 0
+    index = len(x)-1
+    while index >= 0 :
+        num = int(x[index]) * (2 ** power)
+        decimal_num+=num
+        power+=1
+        index-=1
+
+    return decimal_num
+
+def convert2decimall(x:str) -> int :   # my pov 
+    decimal_num = 0 
+    power = 0
+    index = len(x)-1
+    for i in range(index, -1,-1):
+        num = int(x[i]) * (2 ** power)
+        decimal_num+=num
+        power+=1
+        # index-=1
+
+    return decimal_num
+x = "1101"
+print(convert2decimall(x))            # TC :- O(len)
+
+""" 
+how deos the computer store the bits :- 
+if x = 13 then deci to binary :- 1101 and rest of the 28 bits are 0's so 28 + 4 = 32 bits 
+and we wanto print the x then ii will convert the binary to decimal
+"""
+
+"""
+1's : convert the deci to binary and then flip the digits 
+and
+2's compliment : convert it to 1's compliment and then add 1 to it 
+"""
+
+#-------------------------------------------------------------------------
+"""
+different types of operator : and , or , xor, not, shift 
+
+1> AND  :- all true -> true || one false -> false
+2> OR :- one true -> ture || all false -> false 
+3> XOR x^y :- same :- false(0) || different -> true(1)
+           :- if no of 1's is odd -> 1 , no of 1's is even -> 0 
+4> SHIFT x >> 1(right shift)
+         :- 1101 > 1 :- 0110  :- x / 2^k 
+
+         x << 1 (left shift)
+5> NOT operator :- checks whether -ve or not -> sign ~
+    do the 2's compliment 
+    flip the number 
+    check the first leftmost bit of the number it is -ve or not -> if not stop else do 2's 
+    0 means it is not negative
+
+    ex:- x = ~(-13) = 12 
+"""
+
+
+"""
+lecture 71 :- Bit Manipulation Basics | Swapping, Setting, Clearing, Toggling Bits
+"""
+
+# swapping 
+a = 5 
+b = 10 
+print("initial, a :- ",a , "b :-",b)
+a = a^b
+b = a^b  # here b becomes a 
+a = a^b  # here a becomes b 
+
+print("a :- ",a, "b :- ",b)
+
+
+# check if the ith bit is set or not ,if the ith number is 1 or not 
+"""
+1> do the left shift of 1 by the ith number , and then do the and operation :- if it comes to be true the ith posiition then the bit is set
+"""
+print("uaing left shift :")
+
+N = 13
+i= 2
+if (N &(1<<i)) != 0 :
+    print("True")
+else :
+    print("False")
+
+"""
+2> by using right shift n >>1 , AND operation with 1
+"""
+print("using right shift :")
+N = 13
+i = 2 
+if (N >> i & 1) != 0 :
+    print("True")
+else :
+    print("False")
+
+
+# set the ith bit :- if the given index is 0 
+N = 9 
+i = 2
+a = (N | 1<<i)  # we are using OR here to maintain the other bits same 
+print(a)
+
+
+# clear the ith bit :- to make it 0 if he ith bit is 1 , and to do nothing if it is already 0 
+N = 13 
+i = 2 # i will be always given to you , the ith bit
+b = (N & ~(1<<i))
+print(b)
+
+
+# toggle the ith bit 
+N=13
+i= 2
+c = N ^ 1<<i  # using the xor operator 
+print(c)
+
+
+# remove the rightmost bit i.e convert 1 to 0 (rightmost)
+N = 13 # 1101 -> 1100 we can i iterate from right to left 
+
+nn = list("1100")
+n = len(nn) - 1
+c = 0 
+for i in range(n,-1,-1):
+    if nn[i] == "1" and c < 1 :
+        nn[i] = "0"
+        c+=1
+print(nn)  # but we have to convert it to list 
+
+# below is the optimal solution :- 
+N = 16
+d = (N & N-1)
+print(d)
+
+N = 40
+d = (N & N-1)
+print(d)
+
+# check if the number is power of 2 
+N1 = 8
+N2 = 7
+def cck(N):
+    if (N & (N-1)) == 0 :
+        return True
+    else :
+        return False
+print(cck(N1))
+print(cck(N2))
+
+
+"""
+lecture 72 :- Minimum bit flips to convert number     -> lc 2220
+"""
+start = 3
+goal = 4
+ans = start ^ goal
+count = 0 
+for i in range(0,32):
+    if ans&(1<<i) != 0 :
+        count+=1
+print("number of changes required :- ",count)     # TC :- O(32) if wanto to decrease it then do the logbase2N solution n= n //2 
+
+"""
+lecture 73 :- Bit manipulation and Xor trick     -> lc 136
+"""
+
+# the brute force solution witout the bit manipulation 
+nums = [5,1,3,3,7,1,7]
+freq = {}
+n = len(nums)
+for i in range(n):
+    if nums[i] not in freq :
+        freq[nums[i]] = 1
+    else :
+        freq[nums[i]]+=1
+for k,v in freq.items():
+    if v == 1 :
+        print(k)
+
+ans = 0
+for num in nums :
+    ans = ans^num
+print(ans)
+
+"""
+lecture 74 :- Generate Subsets Using Bit Manipulation
+"""
+
+# 2 power n -> is same as 1<<n
+
+nums = [1,2,3]
+n = len(nums)
+total_subsets = 1<<n  
+result = []
+for num in range(total_subsets):
+    lst = []
+    for i in range(n):
+        if num & (1<<i) != 0 :
+            lst.append(nums[i])
+    result.append(lst)
+print(result)
+
+
+"""
+lecture 75 :- Advanced recursion -> v.v.v imp -> all the below things are imp for backtracking 
+"""
+
+# before starting you should know this topics :- 
+"""
+1> Print all the subsequences
+2> Find all subsequences with sum = k 
+3> check if there exists a subsequence with sum = K
+4> Count all subsequences with Sum = K
+"""
+
+# sunsequence -> continours/ non-continous sequence which follows the order 
+# subarrays are continous where as subsequence are both continous and non continous but in a specific direction   Example nums = [1,2,3,4,5] -> [1,2,3] and [1,3,4]
+nums = [5,7,9]
+result = []
+def func(index,subset) :
+    if index >= len(nums):
+        result.append(subset.copy())
+        return 
+    subset.append(nums[index])
+    func(index+1,subset)
+    subset.pop()
+    func(index+1,subset)
+func(0,[])
+print(result)
+
+
+"""
+lecture 76 :- Generate Subsequences with Sum K 
+"""
+
+# brute force :- we can also use the above solution also
+nums = [5,9,4]
+result = []
+target = 9
+def func(index,subset) :
+    if index >= len(nums):
+        if sum(subset) == target :
+            result.append(subset.copy())
+        return  
+    subset.append(nums[index])
+    func(index+1,subset)
+    subset.pop()
+    func(index+1,subset)
+func(0,[])
+print(result)
+
+
+"""
+to solve this type of questions :- 
+-> first do the dry run of the code note down all of the steps 
+-> then write down the coe , and return will go to the caller function and continue executing the after codes 
+"""
+# the optimal solution :- 
+nums = [5,9,4]
+res = []
+sum = 0 
+def func(index, total ,subset) :
+    if total == target :
+        result.append(subset.copy())
+        return
+    elif total > target :
+        return 
+    if index >= len(nums) :
+        return 
+    subset.append(nums[index])
+    sum = total + nums[index]
+    func(index+1,sum, subset)
+    e = subset.pop()
+    sum = sum - e 
+    func(index+1,sum, subset)
+
+""""
+lecture 77 :- check if there exists a subsequence with sum = k 
+"""
+# you just have to check whether there is one sequence only or not 
+
+def func(index,total,subset) :
+    if total == target :
+        result.append(nums[index])
+        return True
+    elif total > target :
+        return False
+    if index >= len(nums) :
+        return False
+    subset.append(nums[index])
+    sum = sum + nums[index]
+    pick = func(index+1,sum,subset)
+    if pick == True :   # this is beacause if it finds the soliution before then no need to sun the below code of lines 
+        return True 
+    subset.pop()
+    sum = total
+    not_pick = func(index+1,sum,subset)
+    return not_pick
+
+"""
+lecture 78 :- Count All Subsequences with Sum K    -> remaining 
+"""
+
+# def func(index, total , subset) :
+#     if total == k :
+
+
+"""
+lecture 79 :-  Generate All Binary Strings , but there at the left or right of that index /1 there should not be 1
+"""
+
+
+
+
+
+
+
+
+
+"""
+lecture 80 :- Generate parantheses  --> lc 22    -> striver and neetcode imp
+
+according to the n there should be the n*2 parantheses
+"""
+n = 2 
+result = []
+brackets = [""] * (n*2)
+
+def func(index,total,brackets,result) :
+    if index >= len(brackets) :
+        if total == 0 :
+            result.append("".join(brackets))
+        return 
+    if total > len(brackets) // 2 : # or (n*2) // 2
+        return 
+    elif total < 0 :
+        return 
+    brackets[index] = "("
+    Sum = total + 1
+    func(index+1, Sum ,brackets, result)
+    brackets[index] = ")"
+    Sum = total - 1 
+    func(index+1, Sum,brackets, result)
+
+
+func(0, 0, brackets, result)
+print(result)
 
